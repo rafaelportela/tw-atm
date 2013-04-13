@@ -16,7 +16,7 @@ public class AccountTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testAccountWithNegativeBalance() {
-		Account account = new Account(-1000.0);
+		new Account(-1000.0);
 	}
 
 	@Test
