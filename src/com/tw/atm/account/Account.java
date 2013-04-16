@@ -1,12 +1,16 @@
 package com.tw.atm.account;
 
-public class Account {
+public abstract class Account {
 	private double balance;
+
+	public Account() {
+		balance = 0.0;
+	}
 
 	public Account(double balance) {
 		if (balance < 0) {
 			throw new IllegalArgumentException(
-					"Can't initialize an account with a negative balance.");
+					"Can't create an account with a negative balance.");
 		} else
 			this.balance = balance;
 	}
@@ -33,8 +37,8 @@ public class Account {
 			balance -= amount;
 	}
 
-	public void transferMoney(double amount, Account account) {
+	public void transferMoney(double amount, Account destinationAccount) {
 		this.withdraw(amount);
-		account.deposit(amount);
+		destinationAccount.deposit(amount);
 	}
 }

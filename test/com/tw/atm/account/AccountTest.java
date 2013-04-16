@@ -7,16 +7,16 @@ import org.junit.Test;
 
 public class AccountTest {
 
-	private Account account;
+	private AccountImpl account;
 
 	@Before
 	public void setup() {
-		account = new Account(0.0);
+		account = new AccountImpl();
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testAccountWithNegativeBalance() {
-		new Account(-1000.0);
+		new AccountImpl(-1000.0);
 	}
 
 	@Test
@@ -54,8 +54,8 @@ public class AccountTest {
 
 	@Test
 	public void testTransferMoneyBetweenAccounts() {
-		Account sourceAccount = new Account(100.0);
-		Account destinationAccount = new Account(0.0);
+		AccountImpl sourceAccount = new AccountImpl(100.0);
+		AccountImpl destinationAccount = new AccountImpl(0.0);
 		double amount = 50.0;
 		sourceAccount.transferMoney(amount, destinationAccount);
 		assertEquals(50.0, sourceAccount.getBalance(), 0.1);
