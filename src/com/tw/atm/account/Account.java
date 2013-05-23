@@ -1,18 +1,19 @@
 package com.tw.atm.account;
 
-public abstract class Account {
-	private double balance;
+public class Account {
+	public final static String CURRENT_ACCOUNT = "Current Account";
+	public final static String SAVINGS_ACCOUNT = "Savings Account";
 
-	public Account() {
-		balance = 0.0;
+	private double balance;
+	private String accountType;
+
+	public Account(String accountType) {
+		this.balance = 0.0;
+		this.accountType = accountType;
 	}
 
-	public Account(double balance) {
-		if (balance < 0) {
-			throw new IllegalArgumentException(
-					"Can't create an account with a negative balance.");
-		} else
-			this.balance = balance;
+	public String getAccountType() {
+		return accountType;
 	}
 
 	public double getBalance() {

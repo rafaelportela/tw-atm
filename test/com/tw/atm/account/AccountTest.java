@@ -7,33 +7,28 @@ import org.junit.Test;
 
 public class AccountTest {
 
-	private AccountImpl account;
+	private Account account;
 
 	@Before
 	public void setup() {
-		account = new AccountImpl();
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void testAccountWithNegativeBalance() {
-		new AccountImpl(-1000.0);
+		account = new Account(Account.CURRENT_ACCOUNT);
 	}
 
 	@Test
-	public void testDepositAmount() {
+	public void depositAmount() {
 		double amount = 1000.0;
 		account.deposit(amount);
 		assertEquals(1000.0, account.getBalance(), 0.1);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testDepositNegativeAmount() {
+	public void throwsErrorForNegativeValuesWhenDepositing() {
 		double amount = -1000.0;
 		account.deposit(amount);
 	}
 
 	@Test
-	public void testWithdrawMoney() {
+	public void withdrawMoney() {
 		double amount = 1500.0;
 		account.deposit(amount);
 		account.withdraw(amount);
@@ -41,23 +36,27 @@ public class AccountTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testWithdrawMoneyWithInsufficientBalance() {
+	public void throwsErrorForInsufficientBalanceWhenWithdrawing() {
 		double amount = 500.0;
 		account.withdraw(amount);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testWithdrawNegativeAmount() {
+	public void throwsErrorForNegativeValuesWhenWithdrawing() {
 		double amount = -2050.0;
 		account.withdraw(amount);
 	}
 
 	@Test
-	public void testTransferMoneyBetweenAccounts() {
-		AccountImpl sourceAccount = new AccountImpl(100.0);
-		AccountImpl destinationAccount = new AccountImpl(0.0);
+	public void transferMoneyBetweenAccounts() {
+		Account sourceAccount = new Account(Account.CURRENT_ACCOUNT);
+		Account destinationAccount = new Account(Account.SAVINGS_ACCOUNT);
+
+		sourceAccount.deposit(100.0);
+
 		double amount = 50.0;
 		sourceAccount.transferMoney(amount, destinationAccount);
+
 		assertEquals(50.0, sourceAccount.getBalance(), 0.1);
 		assertEquals(50.0, destinationAccount.getBalance(), 0.1);
 	}
