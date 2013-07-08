@@ -1,18 +1,15 @@
 package com.tw.atm.account;
 
 public class Account {
-	public final static String CURRENT_ACCOUNT = "Current Account";
-	public final static String SAVINGS_ACCOUNT = "Savings Account";
-
 	private double balance;
-	private String accountType;
+	private AccountType accountType;
 
-	public Account(String accountType) {
+	public Account(AccountType accountType) {
 		this.balance = 0.0;
 		this.accountType = accountType;
 	}
 
-	public String getAccountType() {
+	public AccountType getAccountType() {
 		return accountType;
 	}
 

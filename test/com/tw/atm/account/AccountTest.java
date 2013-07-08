@@ -11,7 +11,7 @@ public class AccountTest {
 
 	@Before
 	public void setup() {
-		account = new Account(Account.CURRENT_ACCOUNT);
+		account = new Account(AccountType.CURRENT_ACCOUNT);
 	}
 
 	@Test
@@ -22,7 +22,7 @@ public class AccountTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void throwsErrorForNegativeValuesWhenDepositing() {
+	public void throwsErrorForNegativeDeposit() {
 		double amount = -1000.0;
 		account.deposit(amount);
 	}
@@ -36,21 +36,21 @@ public class AccountTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void throwsErrorForInsufficientBalanceWhenWithdrawing() {
+	public void throwsErrorForInsufficientBalance() {
 		double amount = 500.0;
 		account.withdraw(amount);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void throwsErrorForNegativeValuesWhenWithdrawing() {
+	public void throwsErrorForNegativeWithdraw() {
 		double amount = -2050.0;
 		account.withdraw(amount);
 	}
 
 	@Test
 	public void transferMoneyBetweenAccounts() {
-		Account sourceAccount = new Account(Account.CURRENT_ACCOUNT);
-		Account destinationAccount = new Account(Account.SAVINGS_ACCOUNT);
+		Account sourceAccount = new Account(AccountType.CURRENT_ACCOUNT);
+		Account destinationAccount = new Account(AccountType.SAVINGS_ACCOUNT);
 
 		sourceAccount.deposit(100.0);
 
