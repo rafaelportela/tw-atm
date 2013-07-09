@@ -17,26 +17,31 @@ public class Account {
 		return balance;
 	}
 
-	public void deposit(double amount) {
+	public void deposit(double amount) throws NegativeValueException {
 		if (amount < 0) {
-			throw new IllegalArgumentException(
+			throw new NegativeValueException(
 					"You can't deposit a negative amount.");
 		} else
 			balance += amount;
 	}
 
-	public void withdraw(double amount) {
+	public void withdraw(double amount) throws NegativeValueException,
+			InsufficientBalanceException {
 		if (amount > balance) {
-			throw new IllegalArgumentException("Insufficient balance.");
+			throw new InsufficientBalanceException("Insufficient balance.");
 		} else if (amount < 0) {
-			throw new IllegalArgumentException(
+			throw new NegativeValueException(
 					"You can't withdraw a negative amount.");
 		} else
 			balance -= amount;
 	}
 
-	public void transferMoney(double amount, Account destinationAccount) {
-		this.withdraw(amount);
-		destinationAccount.deposit(amount);
+	public void transferMoney(Account destinationAccount, double amount) {
+		try {
+			this.withdraw(amount);
+			destinationAccount.deposit(amount);
+		} catch (NegativeValueException | InsufficientBalanceException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 }
