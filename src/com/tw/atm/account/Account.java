@@ -1,12 +1,39 @@
 package com.tw.atm.account;
 
 public class Account {
+	private int id;
+	private String holderName;
+	private String holderCPF;
 	private double balance;
 	private AccountType accountType;
 
 	public Account(AccountType accountType) {
 		this.balance = 0.0;
 		this.accountType = accountType;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getHolderName() {
+		return holderName;
+	}
+
+	public void setHolderName(String holderName) {
+		this.holderName = holderName;
+	}
+
+	public String getHolderCPF() {
+		return holderCPF;
+	}
+
+	public void setHolderCPF(String holderCPF) {
+		this.holderCPF = holderCPF;
 	}
 
 	public AccountType getAccountType() {
