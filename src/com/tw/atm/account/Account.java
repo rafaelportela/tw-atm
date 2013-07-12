@@ -6,6 +6,7 @@ public class Account {
 	private String holderCPF;
 	private double balance;
 	private AccountType accountType;
+	private AccountStatement accountStatement;
 
 	public Account(AccountType accountType) {
 		this.balance = 0.0;
@@ -63,7 +64,12 @@ public class Account {
 			balance -= amount;
 	}
 
-	public void transferMoney(Account destinationAccount, double amount) {
+	public void transferMoney(Account destinationAccount, double amount)
+			throws NonExistentAccountException {
+		if (destinationAccount == null)
+			throw new NonExistentAccountException(
+					"The destination account doesn't exist.");
+
 		try {
 			this.withdraw(amount);
 			destinationAccount.deposit(amount);

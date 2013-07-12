@@ -15,21 +15,20 @@ public class AccountTest {
 	}
 
 	@Test
-	public void depositAmount() throws NegativeValueException {
+	public void depositAmount() throws Exception {
 		double amount = 1000.0;
 		account.deposit(amount);
 		assertEquals(1000.0, account.getBalance(), 0.1);
 	}
 
 	@Test(expected = NegativeValueException.class)
-	public void throwsErrorForNegativeDeposit() throws NegativeValueException {
+	public void throwsErrorForNegativeDeposit() throws Exception {
 		double amount = -1000.0;
 		account.deposit(amount);
 	}
 
 	@Test
-	public void withdrawMoney() throws NegativeValueException,
-			InsufficientBalanceException {
+	public void withdrawMoney() throws Exception {
 		double amount = 1500.0;
 		account.deposit(amount);
 		account.withdraw(amount);
@@ -37,31 +36,33 @@ public class AccountTest {
 	}
 
 	@Test(expected = InsufficientBalanceException.class)
-	public void throwsErrorForInsufficientBalance()
-			throws NegativeValueException, InsufficientBalanceException {
+	public void throwsErrorForInsufficientBalance() throws Exception {
 		double amount = 500.0;
 		account.withdraw(amount);
 	}
 
 	@Test(expected = NegativeValueException.class)
-	public void throwsErrorForNegativeWithdraw() throws NegativeValueException,
-			InsufficientBalanceException {
+	public void throwsErrorForNegativeWithdraw() throws Exception {
 		double amount = -2050.0;
 		account.withdraw(amount);
 	}
 
 	@Test
-	public void transferMoneyBetweenAccounts() throws NegativeValueException {
-		Account sourceAccount = new Account(AccountType.CURRENT_ACCOUNT);
+	public void transferMoneyBetweenAccounts() throws Exception {
 		Account destinationAccount = new Account(AccountType.SAVINGS_ACCOUNT);
-
-		sourceAccount.deposit(100.0);
-
+		account.deposit(100.0);
 		double amount = 50.0;
-		sourceAccount.transferMoney(destinationAccount, amount);
-
-		assertEquals(50.0, sourceAccount.getBalance(), 0.1);
+		account.transferMoney(destinationAccount, amount);
+		assertEquals(50.0, account.getBalance(), 0.1);
 		assertEquals(50.0, destinationAccount.getBalance(), 0.1);
+	}
+
+	@Test(expected = NonExistentAccountException.class)
+	public void transferMoneyToNonExistentAccount() throws Exception {
+		Account destinationAccount = null;
+		account.deposit(100.0);
+		double amount = 50.0;
+		account.transferMoney(destinationAccount, amount);
 	}
 
 }
