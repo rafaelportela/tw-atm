@@ -12,33 +12,25 @@ public class Account {
 	private AccountType accountType;
 	private AccountStatement accountStatement;
 
-	public Account(AccountType accountType) {
-		this.balance = 0.0;
+	public Account(int id, String holderName, String holderCPF,
+			AccountType accountType) {
+		this.id = id;
+		this.holderName = holderName;
+		this.holderCPF = holderCPF;
 		this.accountType = accountType;
+		this.accountStatement = new AccountStatement();
 	}
 
 	public int getId() {
 		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
-
 	public String getHolderName() {
 		return holderName;
 	}
 
-	public void setHolderName(String holderName) {
-		this.holderName = holderName;
-	}
-
 	public String getHolderCPF() {
 		return holderCPF;
-	}
-
-	public void setHolderCPF(String holderCPF) {
-		this.holderCPF = holderCPF;
 	}
 
 	public AccountType getAccountType() {
@@ -57,8 +49,11 @@ public class Account {
 		if (amount < 0) {
 			throw new NegativeValueException(
 					"You can't deposit a negative amount.");
-		} else
+		} else {
 			balance += amount;
+			Transaction transaction = new Transaction(amount, 0.0, balance);
+			accountStatement.storeTransaction(transaction);
+		}
 	}
 
 	public void withdraw(double amount) throws NegativeValueException,
