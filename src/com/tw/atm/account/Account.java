@@ -1,5 +1,8 @@
 package com.tw.atm.account;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.tw.atm.exceptions.InsufficientBalanceException;
 import com.tw.atm.exceptions.NegativeValueException;
 import com.tw.atm.exceptions.NonExistentAccountException;
@@ -10,35 +13,27 @@ public class Account {
 	private String holderCPF;
 	private double balance;
 	private AccountType accountType;
-	private AccountStatement accountStatement;
+	private List<Transaction> transactions;
 
-	public Account(AccountType accountType) {
-		this.balance = 0.0;
+	public Account(int id, String holderName, String holderCPF,
+			AccountType accountType) {
+		this.id = id;
+		this.holderName = holderName;
+		this.holderCPF = holderCPF;
 		this.accountType = accountType;
+		transactions = new ArrayList<>();
 	}
 
 	public int getId() {
 		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
-
 	public String getHolderName() {
 		return holderName;
 	}
 
-	public void setHolderName(String holderName) {
-		this.holderName = holderName;
-	}
-
 	public String getHolderCPF() {
 		return holderCPF;
-	}
-
-	public void setHolderCPF(String holderCPF) {
-		this.holderCPF = holderCPF;
 	}
 
 	public AccountType getAccountType() {
@@ -47,10 +42,6 @@ public class Account {
 
 	public double getBalance() {
 		return balance;
-	}
-
-	public AccountStatement getAccountStatement() {
-		return accountStatement;
 	}
 
 	public void deposit(double amount) throws NegativeValueException {
