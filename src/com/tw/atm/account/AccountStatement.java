@@ -1,11 +1,8 @@
 package com.tw.atm.account;
 
-import java.util.Date;
+import java.util.List;
 
 public class AccountStatement {
-	private Date date;
-	private double charges;
-	private double credits;
-	private double lineTotal;
+	private List<Transaction> transactions;
 
 }

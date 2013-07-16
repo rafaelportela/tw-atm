@@ -1,4 +1,4 @@
-package com.tw.atm.account;
+package com.tw.atm.exceptions;
 
 public class InsufficientBalanceException extends Exception {
 

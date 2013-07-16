@@ -5,6 +5,10 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.tw.atm.exceptions.InsufficientBalanceException;
+import com.tw.atm.exceptions.NegativeValueException;
+import com.tw.atm.exceptions.NonExistentAccountException;
+
 public class AccountTest {
 
 	private Account account;

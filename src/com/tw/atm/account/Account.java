@@ -1,5 +1,9 @@
 package com.tw.atm.account;
 
+import com.tw.atm.exceptions.InsufficientBalanceException;
+import com.tw.atm.exceptions.NegativeValueException;
+import com.tw.atm.exceptions.NonExistentAccountException;
+
 public class Account {
 	private int id;
 	private String holderName;
@@ -43,6 +47,10 @@ public class Account {
 
 	public double getBalance() {
 		return balance;
+	}
+
+	public AccountStatement getAccountStatement() {
+		return accountStatement;
 	}
 
 	public void deposit(double amount) throws NegativeValueException {
