@@ -3,9 +3,7 @@ package com.tw.atm.account;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.tw.atm.exceptions.InsufficientBalanceException;
-import com.tw.atm.exceptions.NegativeValueException;
-import com.tw.atm.exceptions.NonExistentAccountException;
+import com.tw.atm.exceptions.AccountManagementException;
 
 public class Account {
 	private int id;
@@ -24,56 +22,58 @@ public class Account {
 		transactions = new ArrayList<>();
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public String getHolderName() {
-		return holderName;
-	}
-
-	public String getHolderCPF() {
-		return holderCPF;
-	}
-
-	public AccountType getAccountType() {
-		return accountType;
-	}
-
 	public double getBalance() {
 		return balance;
 	}
 
-	public void deposit(double amount) throws NegativeValueException {
+	public void deposit(double amount) throws AccountManagementException {
 		if (amount < 0) {
-			throw new NegativeValueException(
+			throw new AccountManagementException(
 					"You can't deposit a negative amount.");
-		} else
+		} else if (amount == 0) {
+			throw new AccountManagementException(
+					"You must insert a value greater than zero.");
+		} else {
 			balance += amount;
+			storeTransaction(amount, TransactionType.DEPOSIT);
+		}
 	}
 
-	public void withdraw(double amount) throws NegativeValueException,
-			InsufficientBalanceException {
+	public void withdraw(double amount) throws AccountManagementException,
+			AccountManagementException {
 		if (amount > balance) {
-			throw new InsufficientBalanceException("Insufficient balance.");
+			throw new AccountManagementException("Insufficient balance.");
+		} else if (amount == 0) {
+			throw new AccountManagementException(
+					"You must insert a value greater than zero.");
 		} else if (amount < 0) {
-			throw new NegativeValueException(
+			throw new AccountManagementException(
 					"You can't withdraw a negative amount.");
 		} else
 			balance -= amount;
 	}
 
 	public void transferMoney(Account destinationAccount, double amount)
-			throws NonExistentAccountException {
+			throws AccountManagementException {
 		if (destinationAccount == null)
-			throw new NonExistentAccountException(
+			throw new AccountManagementException(
 					"The destination account doesn't exist.");
 
 		try {
 			this.withdraw(amount);
 			destinationAccount.deposit(amount);
-		} catch (NegativeValueException | InsufficientBalanceException e) {
+		} catch (AccountManagementException e) {
 			System.out.println(e.getMessage());
 		}
 	}
+
+	private void storeTransaction(double amount, TransactionType type) {
+		Transaction transaction = new Transaction(amount, type);
+		transactions.add(transaction);
+	}
+
+	public Transaction getLastTransaction() {
+		return transactions.get(transactions.size() - 1);
+	}
+
 }

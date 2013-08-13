@@ -5,9 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.tw.atm.exceptions.InsufficientBalanceException;
-import com.tw.atm.exceptions.NegativeValueException;
-import com.tw.atm.exceptions.NonExistentAccountException;
+import com.tw.atm.exceptions.AccountManagementException;
 
 public class AccountTest {
 
@@ -20,40 +18,58 @@ public class AccountTest {
 	}
 
 	@Test
-	public void depositAmount() throws Exception {
+	public void depositAmount() throws AccountManagementException {
 		double amount = 1000.0;
 		account.deposit(amount);
 		assertEquals(1000.0, account.getBalance(), 0.1);
 	}
 
-	@Test(expected = NegativeValueException.class)
-	public void throwsErrorForNegativeDeposit() throws Exception {
+	@Test(expected = AccountManagementException.class)
+	public void throwsErrorForZeroValueDeposit()
+			throws AccountManagementException {
+		double amount = 0.0;
+		account.deposit(amount);
+	}
+
+	@Test(expected = AccountManagementException.class)
+	public void throwsErrorForNegativeDeposit()
+			throws AccountManagementException {
 		double amount = -1000.0;
 		account.deposit(amount);
 	}
 
 	@Test
-	public void withdrawMoney() throws Exception {
+	public void withdrawMoney() throws AccountManagementException {
 		double amount = 1500.0;
 		account.deposit(amount);
 		account.withdraw(amount);
 		assertEquals(0.0, account.getBalance(), 0.1);
 	}
 
-	@Test(expected = InsufficientBalanceException.class)
-	public void throwsErrorForInsufficientBalance() throws Exception {
+	@Test(expected = AccountManagementException.class)
+	public void throwsErrorForInsufficientBalance()
+			throws AccountManagementException {
 		double amount = 500.0;
 		account.withdraw(amount);
 	}
 
-	@Test(expected = NegativeValueException.class)
-	public void throwsErrorForNegativeWithdraw() throws Exception {
+	@Test(expected = AccountManagementException.class)
+	public void throwsErrorForNegativeWithdraw()
+			throws AccountManagementException {
 		double amount = -2050.0;
 		account.withdraw(amount);
 	}
 
+	@Test(expected = AccountManagementException.class)
+	public void throwsErrorForZeroValueWithdraw()
+			throws AccountManagementException {
+		double amount = 0.0;
+		account.withdraw(amount);
+	}
+
 	@Test
-	public void transferMoneyBetweenAccounts() throws Exception {
+	public void transferMoneyBetweenAccounts()
+			throws AccountManagementException {
 		Account destinationAccount = new Account(002, "Rodrigo",
 				"111.111.111-11", AccountType.SAVINGS_ACCOUNT);
 		account.deposit(100.0);
@@ -63,7 +79,7 @@ public class AccountTest {
 		assertEquals(50.0, destinationAccount.getBalance(), 0.1);
 	}
 
-	@Test(expected = NonExistentAccountException.class)
+	@Test(expected = AccountManagementException.class)
 	public void transferMoneyToNonExistentAccount() throws Exception {
 		Account destinationAccount = null;
 		account.deposit(100.0);

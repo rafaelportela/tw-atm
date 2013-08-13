@@ -1,35 +1,21 @@
 package com.tw.atm.account;
 
-import java.util.Calendar;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Transaction {
-	private Date date;
-	private double charges;
-	private double credits;
-	private double lineTotal;
+	private String date;
+	private double amount;
+	private TransactionType type;
 
-	public Transaction(double charges, double credits, double lineTotal) {
-		date = Calendar.getInstance().getTime();
-		this.charges = charges;
-		this.credits = credits;
-		this.lineTotal = lineTotal;
+	public Transaction(double amount, TransactionType type) {
+		date = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date());
+		this.amount = amount;
+		this.type = type;
 	}
 
-	public Date getDate() {
+	public String getDate() {
 		return date;
-	}
-
-	public double getCharges() {
-		return charges;
-	}
-
-	public double getCredits() {
-		return credits;
-	}
-
-	public double getLineTotal() {
-		return lineTotal;
 	}
 
 }

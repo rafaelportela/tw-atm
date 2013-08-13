@@ -2,17 +2,39 @@ package com.tw.atm.account;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.Calendar;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.junit.Before;
 import org.junit.Test;
 
 public class TransactionTest {
 
+	private Account account;
+
+	@Before
+	public void setup() {
+		account = new Account(001, "Luan", "000.000.000-00",
+				AccountType.CURRENT_ACCOUNT);
+	}
+
 	@Test
-	public void currentDate() {
-		Transaction transaction = new Transaction(0.0, 0.0, 0.0);
-		Date date = Calendar.getInstance().getTime();
+	public void transactionCurrentDate() {
+		Transaction transaction = new Transaction(100.0,
+				TransactionType.DEPOSIT);
+		String date = new SimpleDateFormat("dd/MM/yyyy HH:mm")
+				.format(new Date());
 		assertEquals(date, transaction.getDate());
 	}
+
+	// @Test
+	// public void lastStoredTransaction() throws AccountManagementException {
+	// double amount = 100.0;
+	// account.deposit(amount);
+	// Transaction transaction = new Transaction(100.0,
+	// TransactionType.DEPOSIT);
+	// Transaction lastStoredTransaction = account.getLastTransaction();
+	// assertTrue(transaction.equals(lastStoredTransaction));
+	// }
+
 }
