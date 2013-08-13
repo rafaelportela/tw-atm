@@ -18,4 +18,19 @@ public class Transaction {
 		return date;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		boolean status = false;
+		if (obj instanceof Transaction) {
+			Transaction transaction = (Transaction) obj;
+			if (date.equals(transaction.date)) {
+				if (amount == transaction.amount) {
+					if (type == transaction.type) {
+						status = true;
+					}
+				}
+			}
+		}
+		return status;
+	}
 }
