@@ -20,17 +20,24 @@ public class Transaction {
 
 	@Override
 	public boolean equals(Object obj) {
-		boolean status = false;
-		if (obj instanceof Transaction) {
-			Transaction transaction = (Transaction) obj;
-			if (date.equals(transaction.date)) {
-				if (amount == transaction.amount) {
-					if (type == transaction.type) {
-						status = true;
-					}
-				}
-			}
-		}
-		return status;
+		if (obj == this)
+			return true;
+		if (obj == null || obj.getClass() != this.getClass())
+			return false;
+		Transaction transaction = (Transaction) obj;
+		return (date != null && date.equals(transaction.date))
+				&& amount == transaction.amount
+				&& (type == transaction.type || type != null
+						& type.equals(transaction.type));
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 31 * hash + (date == null ? 0 : date.hashCode());
+		long bits = Double.doubleToLongBits(amount);
+		hash = 31 * hash + (int) (bits ^ (bits >>> 32));
+		hash = 31 * hash + (type == null ? 0 : type.hashCode());
+		return hash;
 	}
 }
