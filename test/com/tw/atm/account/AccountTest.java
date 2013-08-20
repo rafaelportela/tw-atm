@@ -25,17 +25,12 @@ public class AccountTest {
 	}
 
 	@Test(expected = AccountManagementException.class)
-	public void throwsErrorForZeroValueDeposit()
+	public void throwsErrorForInvalidDeposit()
 			throws AccountManagementException {
-		double amount = 0.0;
-		account.deposit(amount);
-	}
-
-	@Test(expected = AccountManagementException.class)
-	public void throwsErrorForNegativeDeposit()
-			throws AccountManagementException {
-		double amount = -1000.0;
-		account.deposit(amount);
+		double zeroAmount = 0.0;
+		double negativeAmount = -1000.0;
+		account.deposit(zeroAmount);
+		account.deposit(negativeAmount);
 	}
 
 	@Test
@@ -54,17 +49,12 @@ public class AccountTest {
 	}
 
 	@Test(expected = AccountManagementException.class)
-	public void throwsErrorForNegativeWithdraw()
+	public void throwsErrorForInvalidWithdraw()
 			throws AccountManagementException {
-		double amount = -2050.0;
-		account.withdraw(amount);
-	}
-
-	@Test(expected = AccountManagementException.class)
-	public void throwsErrorForZeroValueWithdraw()
-			throws AccountManagementException {
-		double amount = 0.0;
-		account.withdraw(amount);
+		double zeroMmount = 0.0;
+		double negativeAmount = -2050.0;
+		account.withdraw(zeroMmount);
+		account.withdraw(negativeAmount);
 	}
 
 	@Test

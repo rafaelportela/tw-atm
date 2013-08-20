@@ -27,10 +27,7 @@ public class Account {
 	}
 
 	public void deposit(double amount) throws AccountManagementException {
-		if (amount < 0) {
-			throw new AccountManagementException(
-					"You can't deposit a negative amount.");
-		} else if (amount == 0) {
+		if (amount <= 0) {
 			throw new AccountManagementException(
 					"You must insert a value greater than zero.");
 		} else {
@@ -43,12 +40,9 @@ public class Account {
 			AccountManagementException {
 		if (amount > balance) {
 			throw new AccountManagementException("Insufficient balance.");
-		} else if (amount == 0) {
+		} else if (amount <= 0) {
 			throw new AccountManagementException(
 					"You must insert a value greater than zero.");
-		} else if (amount < 0) {
-			throw new AccountManagementException(
-					"You can't withdraw a negative amount.");
 		} else
 			balance -= amount;
 	}
