@@ -26,42 +26,48 @@ public class Account {
 		return balance;
 	}
 
-	public void deposit(double amount) throws AccountManagementException {
+	public void deposit(double amount, boolean save)
+			throws AccountManagementException {
 		if (amount <= 0) {
 			throw new AccountManagementException(
 					"You must insert a value greater than zero.");
 		} else {
 			balance += amount;
-			storeTransaction(amount, TransactionType.DEPOSIT);
+			if (save)
+				saveTransaction(amount, TransactionType.DEPOSIT);
 		}
 	}
 
-	public void withdraw(double amount) throws AccountManagementException,
-			AccountManagementException {
+	public void withdraw(double amount, boolean save)
+			throws AccountManagementException, AccountManagementException {
 		if (amount > balance) {
 			throw new AccountManagementException("Insufficient balance.");
 		} else if (amount <= 0) {
 			throw new AccountManagementException(
 					"You must insert a value greater than zero.");
-		} else
+		} else {
 			balance -= amount;
+			if (save)
+				saveTransaction(amount, TransactionType.WITHDRAW);
+		}
 	}
 
-	public void transferMoney(Account destinationAccount, double amount)
+	public void transfer(Account destinationAccount, double amount, boolean save)
 			throws AccountManagementException {
 		if (destinationAccount == null)
 			throw new AccountManagementException(
 					"The destination account doesn't exist.");
-
 		try {
-			this.withdraw(amount);
-			destinationAccount.deposit(amount);
+			this.withdraw(amount, false);
+			destinationAccount.deposit(amount, false);
+			if (save)
+				saveTransaction(amount, TransactionType.TRANSFER);
 		} catch (AccountManagementException e) {
 			System.out.println(e.getMessage());
 		}
 	}
 
-	private void storeTransaction(double amount, TransactionType type) {
+	private void saveTransaction(double amount, TransactionType type) {
 		Transaction transaction = new Transaction(amount, type);
 		transactions.add(transaction);
 	}

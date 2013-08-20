@@ -40,4 +40,5 @@ public class Transaction {
 		hash = 31 * hash + (type == null ? 0 : type.hashCode());
 		return hash;
 	}
+	
 }
