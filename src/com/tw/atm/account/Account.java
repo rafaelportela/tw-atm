@@ -34,7 +34,7 @@ public class Account {
 		} else {
 			balance += amount;
 			if (save)
-				saveTransaction(amount, TransactionType.DEPOSIT);
+				saveTransaction(new Transaction(amount, TransactionType.DEPOSIT));
 		}
 	}
 
@@ -48,7 +48,8 @@ public class Account {
 		} else {
 			balance -= amount;
 			if (save)
-				saveTransaction(amount, TransactionType.WITHDRAW);
+				saveTransaction(new Transaction(amount,
+						TransactionType.WITHDRAW));
 		}
 	}
 
@@ -61,14 +62,15 @@ public class Account {
 			this.withdraw(amount, false);
 			destinationAccount.deposit(amount, false);
 			if (save)
-				saveTransaction(amount, TransactionType.TRANSFER);
+				saveTransaction(new Transaction(amount, destinationAccount,
+						TransactionType.TRANSFER));
+			
 		} catch (AccountManagementException e) {
 			System.out.println(e.getMessage());
 		}
 	}
 
-	private void saveTransaction(double amount, TransactionType type) {
-		Transaction transaction = new Transaction(amount, type);
+	private void saveTransaction(Transaction transaction) {
 		transactions.add(transaction);
 	}
 

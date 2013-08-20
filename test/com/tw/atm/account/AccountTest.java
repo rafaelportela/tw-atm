@@ -100,9 +100,10 @@ public class AccountTest {
 	public void transferTransaction() throws AccountManagementException {
 		double amount = 150.0;
 		TransactionType type = TransactionType.TRANSFER;
-		Transaction transaction = new Transaction(amount, type);
 		Account destinationAccount = new Account(002, "Rodrigo",
 				"111.111.111-11", AccountType.CURRENT_ACCOUNT);
+		Transaction transaction = new Transaction(amount, destinationAccount,
+				type);
 		account.deposit(amount, false);
 		account.transfer(destinationAccount, amount, true);
 		assertEquals(transaction, account.getLastTransaction());

@@ -6,12 +6,19 @@ import java.util.Date;
 public class Transaction {
 	private String date;
 	private double amount;
+	private Account destinationAccount;
 	private TransactionType type;
 
 	public Transaction(double amount, TransactionType type) {
 		date = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date());
 		this.amount = amount;
 		this.type = type;
+	}
+
+	public Transaction(double amount, Account destinationAccount,
+			TransactionType type) {
+		this(amount, type);
+		this.destinationAccount = destinationAccount;
 	}
 
 	public String getDate() {
@@ -27,8 +34,11 @@ public class Transaction {
 		Transaction transaction = (Transaction) obj;
 		return (date != null && date.equals(transaction.date))
 				&& amount == transaction.amount
+				&& (destinationAccount == transaction.destinationAccount || destinationAccount != null
+						&& destinationAccount
+								.equals(transaction.destinationAccount))
 				&& (type == transaction.type || type != null
-						& type.equals(transaction.type));
+						&& type.equals(transaction.type));
 	}
 
 	@Override
@@ -37,8 +47,12 @@ public class Transaction {
 		hash = 31 * hash + (date == null ? 0 : date.hashCode());
 		long bits = Double.doubleToLongBits(amount);
 		hash = 31 * hash + (int) (bits ^ (bits >>> 32));
+		hash = 31
+				* hash
+				+ (destinationAccount == null ? 0 : destinationAccount
+						.hashCode());
 		hash = 31 * hash + (type == null ? 0 : type.hashCode());
 		return hash;
 	}
-	
+
 }
