@@ -20,7 +20,7 @@ public class AccountTest {
 	@Test
 	public void depositAmount() throws AccountManagementException {
 		double amount = 1000.0;
-		account.deposit(amount, false);
+		account.deposit(amount);
 		assertEquals(1000.0, account.getBalance(), 0.1);
 	}
 
@@ -29,15 +29,15 @@ public class AccountTest {
 			throws AccountManagementException {
 		double zeroAmount = 0.0;
 		double negativeAmount = -1000.0;
-		account.deposit(zeroAmount, false);
-		account.deposit(negativeAmount, false);
+		account.deposit(zeroAmount);
+		account.deposit(negativeAmount);
 	}
 
 	@Test
 	public void withdrawMoney() throws AccountManagementException {
 		double amount = 1500.0;
-		account.deposit(amount, false);
-		account.withdraw(amount, false);
+		account.deposit(amount);
+		account.withdraw(amount);
 		assertEquals(0.0, account.getBalance(), 0.1);
 	}
 
@@ -45,7 +45,7 @@ public class AccountTest {
 	public void throwsErrorForInsufficientBalance()
 			throws AccountManagementException {
 		double amount = 500.0;
-		account.withdraw(amount, false);
+		account.withdraw(amount);
 	}
 
 	@Test(expected = AccountManagementException.class)
@@ -53,8 +53,8 @@ public class AccountTest {
 			throws AccountManagementException {
 		double zeroMmount = 0.0;
 		double negativeAmount = -2050.0;
-		account.withdraw(zeroMmount, false);
-		account.withdraw(negativeAmount, false);
+		account.withdraw(zeroMmount);
+		account.withdraw(negativeAmount);
 	}
 
 	@Test
@@ -62,9 +62,9 @@ public class AccountTest {
 			throws AccountManagementException {
 		Account destinationAccount = new Account(002, "Rodrigo",
 				"111.111.111-11", AccountType.SAVINGS_ACCOUNT);
-		account.deposit(100.0, false);
+		account.deposit(100.0);
 		double amount = 50.0;
-		account.transfer(destinationAccount, amount, false);
+		account.transfer(destinationAccount, amount);
 		assertEquals(50.0, account.getBalance(), 0.1);
 		assertEquals(50.0, destinationAccount.getBalance(), 0.1);
 	}
@@ -72,9 +72,9 @@ public class AccountTest {
 	@Test(expected = AccountManagementException.class)
 	public void transferMoneyToNonExistentAccount() throws Exception {
 		Account destinationAccount = null;
-		account.deposit(100.0, false);
+		account.deposit(100.0);
 		double amount = 50.0;
-		account.transfer(destinationAccount, amount, false);
+		account.transfer(destinationAccount, amount);
 	}
 
 	@Test
@@ -82,7 +82,7 @@ public class AccountTest {
 		double amount = 100.0;
 		TransactionType type = TransactionType.DEPOSIT;
 		Transaction transaction = new Transaction(amount, type);
-		account.deposit(amount, true);
+		account.deposit(amount);
 		assertEquals(transaction, account.getLastTransaction());
 	}
 
@@ -91,8 +91,8 @@ public class AccountTest {
 		double amount = 250.0;
 		TransactionType type = TransactionType.WITHDRAW;
 		Transaction transaction = new Transaction(amount, type);
-		account.deposit(amount, false);
-		account.withdraw(amount, true);
+		account.deposit(amount);
+		account.withdraw(amount);
 		assertEquals(transaction, account.getLastTransaction());
 	}
 
@@ -104,8 +104,8 @@ public class AccountTest {
 				"111.111.111-11", AccountType.CURRENT_ACCOUNT);
 		Transaction transaction = new Transaction(amount, destinationAccount,
 				type);
-		account.deposit(amount, false);
-		account.transfer(destinationAccount, amount, true);
+		account.deposit(amount);
+		account.transfer(destinationAccount, amount);
 		assertEquals(transaction, account.getLastTransaction());
 	}
 

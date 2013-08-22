@@ -11,6 +11,7 @@ public class Account {
 	private String holderCPF;
 	private double balance;
 	private AccountType accountType;
+	private boolean shouldSave;
 	private List<Transaction> transactions;
 
 	public Account(int id, String holderName, String holderCPF,
@@ -20,26 +21,25 @@ public class Account {
 		this.holderCPF = holderCPF;
 		this.accountType = accountType;
 		transactions = new ArrayList<>();
+		shouldSave = true;
 	}
 
 	public double getBalance() {
 		return balance;
 	}
 
-	public void deposit(double amount, boolean save)
-			throws AccountManagementException {
+	public void deposit(double amount) throws AccountManagementException {
 		if (amount <= 0) {
 			throw new AccountManagementException(
 					"You must insert a value greater than zero.");
 		} else {
 			balance += amount;
-			if (save)
+			if (shouldSave)
 				saveTransaction(new Transaction(amount, TransactionType.DEPOSIT));
 		}
 	}
 
-	public void withdraw(double amount, boolean save)
-			throws AccountManagementException, AccountManagementException {
+	public void withdraw(double amount) throws AccountManagementException {
 		if (amount > balance) {
 			throw new AccountManagementException("Insufficient balance.");
 		} else if (amount <= 0) {
@@ -47,24 +47,25 @@ public class Account {
 					"You must insert a value greater than zero.");
 		} else {
 			balance -= amount;
-			if (save)
+			if (shouldSave)
 				saveTransaction(new Transaction(amount,
 						TransactionType.WITHDRAW));
 		}
 	}
 
-	public void transfer(Account destinationAccount, double amount, boolean save)
+	public void transfer(Account destinationAccount, double amount)
 			throws AccountManagementException {
 		if (destinationAccount == null)
 			throw new AccountManagementException(
 					"The destination account doesn't exist.");
 		try {
-			this.withdraw(amount, false);
-			destinationAccount.deposit(amount, false);
-			if (save)
-				saveTransaction(new Transaction(amount, destinationAccount,
-						TransactionType.TRANSFER));
-			
+			shouldSave = false;
+			this.withdraw(amount);
+			destinationAccount.deposit(amount);
+			shouldSave = true;
+			saveTransaction(new Transaction(amount, destinationAccount,
+					TransactionType.TRANSFER));
+
 		} catch (AccountManagementException e) {
 			System.out.println(e.getMessage());
 		}
