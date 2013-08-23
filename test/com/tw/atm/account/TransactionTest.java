@@ -11,7 +11,7 @@ public class TransactionTest {
 
 	@Test
 	public void transactionCurrentDate() {
-		Transaction transaction = new Transaction(100.0,
+		Transaction transaction = new Transaction(100.0, 001,
 				TransactionType.DEPOSIT);
 		String date = new SimpleDateFormat("dd/MM/yyyy HH:mm")
 				.format(new Date());
@@ -22,8 +22,8 @@ public class TransactionTest {
 	public void equalsTransaction() {
 		double amount = 100.0;
 		TransactionType type = TransactionType.DEPOSIT;
-		Transaction transaction = new Transaction(amount, type);
-		Transaction sameTransaction = new Transaction(amount, type);
+		Transaction transaction = new Transaction(amount, 001, type);
+		Transaction sameTransaction = new Transaction(amount, 001, type);
 		assertEquals(transaction, sameTransaction);
 	}
 

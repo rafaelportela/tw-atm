@@ -6,7 +6,7 @@ import java.util.List;
 import com.tw.atm.exceptions.AccountManagementException;
 
 public class Account {
-	private int id;
+	private long id;
 	private String holderName;
 	private String holderCPF;
 	private double balance;
@@ -14,7 +14,7 @@ public class Account {
 	private boolean shouldSave;
 	private List<Transaction> transactions;
 
-	public Account(int id, String holderName, String holderCPF,
+	public Account(long id, String holderName, String holderCPF,
 			AccountType accountType) {
 		this.id = id;
 		this.holderName = holderName;
@@ -22,6 +22,10 @@ public class Account {
 		this.accountType = accountType;
 		transactions = new ArrayList<>();
 		shouldSave = true;
+	}
+
+	public long getId() {
+		return id;
 	}
 
 	public double getBalance() {
@@ -35,7 +39,8 @@ public class Account {
 		} else {
 			balance += amount;
 			if (shouldSave)
-				saveTransaction(new Transaction(amount, TransactionType.DEPOSIT));
+				saveTransaction(new Transaction(amount, id,
+						TransactionType.DEPOSIT));
 		}
 	}
 
@@ -48,7 +53,7 @@ public class Account {
 		} else {
 			balance -= amount;
 			if (shouldSave)
-				saveTransaction(new Transaction(amount,
+				saveTransaction(new Transaction(amount, id,
 						TransactionType.WITHDRAW));
 		}
 	}
@@ -63,7 +68,7 @@ public class Account {
 			this.withdraw(amount);
 			destinationAccount.deposit(amount);
 			shouldSave = true;
-			saveTransaction(new Transaction(amount, destinationAccount,
+			saveTransaction(new Transaction(amount, destinationAccount.getId(),
 					TransactionType.TRANSFER));
 
 		} catch (AccountManagementException e) {

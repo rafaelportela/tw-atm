@@ -81,7 +81,7 @@ public class AccountTest {
 	public void depositTransaction() throws AccountManagementException {
 		double amount = 100.0;
 		TransactionType type = TransactionType.DEPOSIT;
-		Transaction transaction = new Transaction(amount, type);
+		Transaction transaction = new Transaction(amount, account.getId(), type);
 		account.deposit(amount);
 		assertEquals(transaction, account.getLastTransaction());
 	}
@@ -90,7 +90,7 @@ public class AccountTest {
 	public void withdrawTransaction() throws AccountManagementException {
 		double amount = 250.0;
 		TransactionType type = TransactionType.WITHDRAW;
-		Transaction transaction = new Transaction(amount, type);
+		Transaction transaction = new Transaction(amount, account.getId(), type);
 		account.deposit(amount);
 		account.withdraw(amount);
 		assertEquals(transaction, account.getLastTransaction());
@@ -102,8 +102,8 @@ public class AccountTest {
 		TransactionType type = TransactionType.TRANSFER;
 		Account destinationAccount = new Account(002, "Rodrigo",
 				"111.111.111-11", AccountType.CURRENT_ACCOUNT);
-		Transaction transaction = new Transaction(amount, destinationAccount,
-				type);
+		Transaction transaction = new Transaction(amount,
+				destinationAccount.getId(), type);
 		account.deposit(amount);
 		account.transfer(destinationAccount, amount);
 		assertEquals(transaction, account.getLastTransaction());
