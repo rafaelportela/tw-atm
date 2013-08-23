@@ -2,20 +2,19 @@ package com.tw.atm.account;
 
 import static org.junit.Assert.assertEquals;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Calendar;
 
+import org.easymock.EasyMock;
 import org.junit.Test;
 
 public class TransactionTest {
 
 	@Test
 	public void transactionCurrentDate() {
-		Transaction transaction = new Transaction(100.0, 001,
-				TransactionType.DEPOSIT);
-		String date = new SimpleDateFormat("dd/MM/yyyy HH:mm")
-				.format(new Date());
-		assertEquals(date, transaction.getDate());
+		Transaction transaction = EasyMock.createNiceMock(Transaction.class);
+		Calendar cal = Calendar.getInstance();
+		EasyMock.expect(transaction.getDate()).andReturn(cal.getTime());
+		EasyMock.replay(transaction);
 	}
 
 	@Test

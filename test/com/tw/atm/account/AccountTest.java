@@ -12,7 +12,7 @@ public class AccountTest {
 	private Account account;
 
 	@Before
-	public void setup() {
+	public void setUp() {
 		account = new Account(001, "Luan", "000.000.000-00",
 				AccountType.CURRENT_ACCOUNT);
 	}
@@ -21,7 +21,7 @@ public class AccountTest {
 	public void depositAmount() throws AccountManagementException {
 		double amount = 1000.0;
 		account.deposit(amount);
-		assertEquals(1000.0, account.getBalance(), 0.1);
+		assertEquals(1000.0, account.getBalance(), 0);
 	}
 
 	@Test(expected = AccountManagementException.class)
@@ -38,7 +38,7 @@ public class AccountTest {
 		double amount = 1500.0;
 		account.deposit(amount);
 		account.withdraw(amount);
-		assertEquals(0.0, account.getBalance(), 0.1);
+		assertEquals(0.0, account.getBalance(), 0);
 	}
 
 	@Test(expected = AccountManagementException.class)
@@ -66,7 +66,7 @@ public class AccountTest {
 		double amount = 50.0;
 		account.transfer(destinationAccount, amount);
 		assertEquals(50.0, account.getBalance(), 0.1);
-		assertEquals(50.0, destinationAccount.getBalance(), 0.1);
+		assertEquals(50.0, destinationAccount.getBalance(), 0);
 	}
 
 	@Test(expected = AccountManagementException.class)

@@ -1,22 +1,22 @@
 package com.tw.atm.account;
 
-import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Transaction {
-	private String date;
+	private Date date;
 	private double amount;
 	private long accountId;
 	private TransactionType type;
 
 	public Transaction(double amount, long accountId, TransactionType type) {
-		date = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date());
+		date = Calendar.getInstance().getTime();
 		this.amount = amount;
 		this.type = type;
 		this.accountId = accountId;
 	}
 
-	public String getDate() {
+	public Date getDate() {
 		return date;
 	}
 
@@ -27,7 +27,8 @@ public class Transaction {
 		if (obj == null || obj.getClass() != this.getClass())
 			return false;
 		Transaction transaction = (Transaction) obj;
-		return (date != null && date.equals(transaction.date))
+		return (date == transaction.date || date != null
+				&& date.equals(transaction.date))
 				&& amount == transaction.amount
 				&& accountId == transaction.accountId
 				&& (type == transaction.type || type != null
