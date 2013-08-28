@@ -9,8 +9,9 @@ public class Transaction {
 	private long accountId;
 	private TransactionType type;
 
-	public Transaction(double amount, long accountId, TransactionType type) {
-		date = Calendar.getInstance().getTime();
+	public Transaction(double amount, long accountId, TransactionType type,
+			Calendar calendar) {
+		date = calendar.getTime();
 		this.amount = amount;
 		this.type = type;
 		this.accountId = accountId;
@@ -27,18 +28,15 @@ public class Transaction {
 		if (obj == null || obj.getClass() != this.getClass())
 			return false;
 		Transaction transaction = (Transaction) obj;
-		return (date == transaction.date || date != null
-				&& date.equals(transaction.date))
-				&& amount == transaction.amount
+		return amount == transaction.amount
 				&& accountId == transaction.accountId
-				&& (type == transaction.type || type != null
-						&& type.equals(transaction.type));
+				&& (type == transaction.type || (type != null && type
+						.equals(transaction.type)));
 	}
 
 	@Override
 	public int hashCode() {
 		int hash = 7;
-		hash = 31 * hash + (date == null ? 0 : date.hashCode());
 		long bits = Double.doubleToLongBits(amount);
 		hash = 31 * hash + (int) (bits ^ (bits >>> 32));
 		hash = 31 * hash + (int) (accountId ^ (accountId >>> 32));

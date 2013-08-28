@@ -1,6 +1,7 @@
 package com.tw.atm.account;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import com.tw.atm.exceptions.AccountManagementException;
@@ -40,7 +41,7 @@ public class Account {
 			balance += amount;
 			if (shouldSave)
 				saveTransaction(new Transaction(amount, id,
-						TransactionType.DEPOSIT));
+						TransactionType.DEPOSIT, Calendar.getInstance()));
 		}
 	}
 
@@ -54,7 +55,7 @@ public class Account {
 			balance -= amount;
 			if (shouldSave)
 				saveTransaction(new Transaction(amount, id,
-						TransactionType.WITHDRAW));
+						TransactionType.WITHDRAW, Calendar.getInstance()));
 		}
 	}
 
@@ -69,7 +70,7 @@ public class Account {
 			destinationAccount.deposit(amount);
 			shouldSave = true;
 			saveTransaction(new Transaction(amount, destinationAccount.getId(),
-					TransactionType.TRANSFER));
+					TransactionType.TRANSFER, Calendar.getInstance()));
 
 		} catch (AccountManagementException e) {
 			System.out.println(e.getMessage());
