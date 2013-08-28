@@ -1,8 +1,6 @@
 package com.tw.atm.account;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import com.tw.atm.exceptions.AccountManagementException;
 
@@ -13,7 +11,7 @@ public class Account {
 	private double balance;
 	private AccountType accountType;
 	private boolean shouldSave;
-	private List<Transaction> transactions;
+	private AccountStatement accountStatement;
 
 	public Account(long id, String holderName, String holderCPF,
 			AccountType accountType) {
@@ -21,7 +19,7 @@ public class Account {
 		this.holderName = holderName;
 		this.holderCPF = holderCPF;
 		this.accountType = accountType;
-		transactions = new ArrayList<>();
+		accountStatement = new AccountStatement();
 		shouldSave = true;
 	}
 
@@ -78,11 +76,11 @@ public class Account {
 	}
 
 	private void saveTransaction(Transaction transaction) {
-		transactions.add(transaction);
+		accountStatement.saveTransaction(transaction);
 	}
 
 	public Transaction getLastTransaction() {
-		return transactions.get(transactions.size() - 1);
+		return accountStatement.getLastTransaction();
 	}
 
 }
