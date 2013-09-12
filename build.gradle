@@ -1,0 +1,13 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  testCompile 'junit:junit:4.11'
+  testCompile 'org.easymock:easymock:3.2'
+}
