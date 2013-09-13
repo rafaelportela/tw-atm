@@ -14,6 +14,11 @@ import org.junit.Test;
 
 public class TransactionTest {
 
+  @Test
+  public void fail() {
+    assertEquals(10, 11);
+  }
+
 	@Test
 	public void transactionCurrentDate() throws ParseException {
 		Calendar calendar = createNiceMock(Calendar.class);
