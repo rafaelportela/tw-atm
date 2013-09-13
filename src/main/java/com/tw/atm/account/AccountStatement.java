@@ -7,7 +7,7 @@ public class AccountStatement {
 	private List<Transaction> transactions;
 
 	public AccountStatement() {
-		transactions = new ArrayList<>();
+		transactions = new ArrayList();
 	}
 
 	public Transaction getLastTransaction() {
